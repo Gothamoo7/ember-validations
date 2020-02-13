@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import Base from 'ember-validations/validators/base';
 
+import { defineProperty } from '@ember/object';
+
 const {
   A: emberArray,
   Object: EmberObject,
@@ -107,7 +109,7 @@ export default Mixin.create(setValidityMixin, {
 
   init() {
     this._super(...arguments);
-    this.errors = EmberObject.create();
+    this.errors = {};
     this.dependentValidationKeys = {};
     this.validators = emberArray();
 
@@ -127,7 +129,7 @@ export default Mixin.create(setValidityMixin, {
           }
         });
 
-        set(this, `errors.${sender.property}`, errors);
+        this.get('errors')[sender.property] =  errors;
       });
     });
 
